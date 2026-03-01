@@ -111,8 +111,44 @@
         h1, .script-font { font-family: 'Great Vibes', cursive; color: var(--gold); }
         .hero-name { font-size: 3.5rem; }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
-        .img-profile { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; }
         
+        /* DESAIN BARU UNTUK FOTO PROFIL */
+        .couple-frame {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto;
+        }
+        .couple-frame::after {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        .img-profile { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            border: 4px solid white; 
+            object-fit: cover; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .name-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin: 10px 0 0 0;
+        }
+        .parent-name {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            font-weight: 300;
+        }
+
         /* Form Styling */
         .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; font-family: 'Montserrat'; }
         .rsvp-stats { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
@@ -138,17 +174,26 @@
     </section>
 
     <section>
-        <h2 class="script-font" style="font-size: 2.5rem;">Groom & Bride</h2>
-        <div style="margin-top: 20px;">
-            <img src="https://via.placeholder.com/150" class="img-profile">
-            <h3 style="margin: 10px 0;">Ali</h3>
-            <p style="font-size: 0.8rem;">Putra dari Bpk. X & Ibu Y</p>
+        <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 30px;">Groom & Bride</h2>
+        
+        <div style="margin-bottom: 40px;">
+            <div class="couple-frame">
+                <img src="https://via.placeholder.com/150" class="img-profile">
+            </div>
+            <h3 class="name-title">Ali</h3>
+            <p class="parent-name">Putra dari Bpk. X & Ibu Y</p>
         </div>
-        <p style="margin: 15px 0; font-weight: bold; color: var(--gold);">DENGAN</p>
-        <div>
-            <img src="https://via.placeholder.com/150" class="img-profile">
-            <h3 style="margin: 10px 0;">Mujay</h3>
-            <p style="font-size: 0.8rem;">Putri dari Bpk. A & Ibu B</p>
+
+        <div style="margin: 10px 0;">
+            <p style="font-weight: 600; color: var(--gold); letter-spacing: 3px;">WITH</p>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <div class="couple-frame">
+                <img src="https://via.placeholder.com/150" class="img-profile">
+            </div>
+            <h3 class="name-title">Mujay</h3>
+            <p class="parent-name">Putri dari Bpk. A & Ibu B</p>
         </div>
     </section>
 
