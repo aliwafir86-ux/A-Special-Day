@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Ali & Mujay - Modern Adat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Meie+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Cinzel:wght@400;700&family=Pinyon+Script&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -18,7 +18,7 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Montserrat', sans-serif; 
+            font-family: 'Libre Baskerville', serif; /* Teks utama lebih klasik */
             background: var(--cream); 
             color: var(--brown);
             overflow-x: hidden;
@@ -110,17 +110,18 @@
 
         h1, h2 { font-family: 'Cinzel', serif; letter-spacing: 2px; }
         
-        /* FONT NAMA HERO (Roundhand Style) */
+        /* FONT NAMA HERO (Pinyon Script untuk kesan romantis) */
         .hero-name { 
-            font-family: 'Snell Roundhand', 'Meie Script', cursive; 
-            font-size: 4.5rem; /* Ukuran dibesarkan agar elegan */
+            font-family: 'Pinyon Script', cursive; 
+            font-size: 5rem; 
             color: var(--gold);
             text-transform: none;
             letter-spacing: 0;
             margin: 10px 0;
+            font-weight: 400;
         }
 
-        .script-font { font-family: 'Great Vibes', cursive; color: var(--gold); }
+        .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
         
         /* UPDATE SLIDE 2: Ukuran Profil Lebih Besar */
@@ -128,7 +129,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 30px; /* Jarak diperlebar */
+            gap: 30px; 
             margin-top: 30px;
             width: 100%;
         }
@@ -137,7 +138,7 @@
 
         .couple-frame {
             position: relative;
-            width: 130px; /* Ukuran Frame dibesarkan */
+            width: 130px; 
             height: 130px;
             margin: 0 auto 20px;
         }
@@ -170,14 +171,15 @@
         }
         
         .name-title {
-            font-family: 'Snell Roundhand', 'Meie Script', cursive;
-            font-size: 2.2rem; /* Nama di slide 2 dibesarkan */
+            font-family: 'Pinyon Script', cursive;
+            font-size: 2.8rem; 
             color: var(--gold);
-            margin: 8px 0;
+            margin: 5px 0;
+            font-weight: 400;
         }
 
         .parent-name {
-            font-size: 0.85rem; /* Font orang tua dibesarkan dikit agar seimbang */
+            font-size: 0.85rem; 
             font-weight: 400;
             line-height: 1.4;
             font-family: 'Montserrat', sans-serif;
@@ -270,7 +272,7 @@
     <div id="giftModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeGiftModal()">&times;</span>
-            <h2 class="script-font" style="font-size: 2rem;">Wedding Gift</h2>
+            <h2 class="script-font" style="font-size: 2.5rem;">Wedding Gift</h2>
             <p style="font-size: 0.75rem; margin-bottom: 10px;">Dompet Digital & Rekening</p>
             
             <div class="gift-card">
@@ -292,15 +294,15 @@
     </div>
 
     <section style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000'); background-size: cover;">
-        <p style="color: white; letter-spacing: 4px;">WEDDING INVITATION</p>
+        <p style="color: white; letter-spacing: 4px; font-family: 'Cinzel';">WEDDING INVITATION</p>
         <h1 class="hero-name">Ali & Mujay</h1>
-        <p style="color: white; font-style: italic;">"A happy marriage is a long conversation which always seems too short."</p>
-        <button class="btn" style="background: var(--gold);" onclick="startInvitation()">Buka Undangan</button>
+        <p style="color: white; font-style: italic; font-family: 'Libre Baskerville';">"A happy marriage is a long conversation which always seems too short."</p>
+        <button class="btn" style="background: var(--gold); font-family: 'Montserrat';" onclick="startInvitation()">Buka Undangan</button>
     </section>
 
     <section>
-        <h2 class="script-font" style="font-size: 2.2rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
-        <p style="font-size: 0.85rem; max-width: 320px; margin-bottom: 10px;">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di kebahagiaan kami:</p>
+        <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
+        <p style="font-size: 0.9rem; max-width: 320px; margin-bottom: 10px; font-family: 'Libre Baskerville';">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di kebahagiaan kami:</p>
         
         <div class="couple-container">
             <div class="couple-profile">
@@ -318,7 +320,7 @@
             </div>
 
             <div style="display: flex; align-items: center; padding-top: 50px;">
-                <p style="font-family: 'Playfair Display', serif; font-style: italic; font-weight: bold; color: var(--gold); font-size: 1.8rem;">&</p>
+                <p style="font-family: 'Pinyon Script', cursive; color: var(--gold); font-size: 2.5rem;">&</p>
             </div>
 
             <div class="couple-profile">
@@ -339,8 +341,8 @@
 
     <section>
         <div class="batik-divider"></div>
-        <h2 class="script-font" style="font-size: 2.5rem;">Our Love Story</h2>
-        <div class="card" style="text-align: left; margin-top: 20px;">
+        <h2 class="script-font" style="font-size: 3rem;">Our Love Story</h2>
+        <div class="card" style="text-align: left; margin-top: 20px; font-family: 'Libre Baskerville';">
             <p style="color: var(--gold); font-weight: bold;">06 JAN 202X - Our First Meet</p>
             <p style="font-size: 0.85rem; margin-top: 5px;">Pertemuan pertama kami yang membawa sejuta rasa...</p>
             <hr style="margin: 15px 0; border: 0.5px solid #eee;">
@@ -350,17 +352,17 @@
     </section>
 
     <section style="background: var(--brown); color: white;">
-        <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Day</h2>
-        <div class="card" style="margin-top: 20px; color: black;">
-            <h4 style="color: var(--brown);">Akad Nikah</h4>
+        <h2 class="script-font" style="font-size: 3rem; color: var(--gold);">Wedding Day</h2>
+        <div class="card" style="margin-top: 20px; color: black; font-family: 'Libre Baskerville';">
+            <h4 style="color: var(--brown); font-family: 'Cinzel';">Akad Nikah</h4>
             <p>23 April 2026 | 10:00 WIB</p>
             <p>Cianjur, Jawa Barat</p>
-            <a href="#" class="btn">📍 Kunjungi Lokasi</a>
+            <a href="#" class="btn" style="font-family: 'Montserrat';">📍 Kunjungi Lokasi</a>
         </div>
     </section>
 
     <section>
-        <h2 class="script-font" style="font-size: 2.5rem;">Our Moments</h2>
+        <h2 class="script-font" style="font-size: 3rem;">Our Moments</h2>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px;">
             <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
             <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
@@ -373,8 +375,8 @@
         <div class="heart-wrapper">
             <span class="heart-icon">🧡</span>
         </div>
-        <h2 class="script-font" style="font-size: 2.5rem;">Rsvp & Ucapan</h2>
-        <p style="font-size: 0.8rem; margin-bottom: 20px;">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
+        <h2 class="script-font" style="font-size: 3rem;">Rsvp & Ucapan</h2>
+        <p style="font-size: 0.9rem; margin-bottom: 20px; font-family: 'Libre Baskerville';">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
         
         <div class="card" style="text-align: left;">
             <div class="rsvp-stats">
@@ -390,24 +392,24 @@
                 <option value="tidak">Tidak Hadir</option>
                 <option value="ragu">Masih Ragu</option>
             </select>
-            <button class="btn" style="width: 100%; background: var(--gold);">Kirim</button>
+            <button class="btn" style="width: 100%; background: var(--gold); font-family: 'Montserrat';">Kirim</button>
         </div>
     </section>
 
     <section>
         <div class="card" style="background: var(--brown); color: white; border: none;">
-            <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Gift</h2>
-            <p style="font-size: 0.8rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
-            <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
+            <h2 class="script-font" style="font-size: 3rem; color: var(--gold);">Wedding Gift</h2>
+            <p style="font-size: 0.9rem; margin: 15px 0; font-family: 'Libre Baskerville';">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
+            <button class="btn" style="background: var(--gold); font-family: 'Montserrat';" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
         </div>
     </section>
 
     <section>
-        <h1 style="font-size: 2rem;">Ali & Mujay</h1>
+        <h1 style="font-size: 2.5rem; font-family: 'Pinyon Script'; color: var(--gold);">Ali & Mujay</h1>
         <div class="batik-divider"></div>
-        <p style="font-size: 0.9rem;">Kami yang berbahagia,</p>
-        <p style="font-weight: bold; margin-top: 10px;">Keluarga Besar Kedua Mempelai</p>
-        <div style="margin-top: 30px; font-size: 0.8rem;">
+        <p style="font-size: 1rem; font-family: 'Libre Baskerville';">Kami yang berbahagia,</p>
+        <p style="font-weight: bold; margin-top: 10px; font-family: 'Cinzel';">Keluarga Besar Kedua Mempelai</p>
+        <div style="margin-top: 30px; font-size: 0.8rem; font-family: 'Montserrat';">
             <p>Vendor: Digital Invitation Website</p>
             <p style="font-style: italic; margin-top: 5px;">"Save Moments • Save Happiness"</p>
         </div>
