@@ -259,6 +259,41 @@
             transition: 0.2s;
         }
         .btn-copy:active { transform: scale(0.9); }
+
+        /* --- KODE TAMBAHAN UNTUK KOLASE OUR MOMENTS --- */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 180px);
+            gap: 12px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 30px;
+        }
+        .gallery-item {
+            background: #eee;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .item-1 { grid-column: span 2; grid-row: span 2; }
+        .item-2 { grid-column: span 2; grid-row: span 1; }
+        .item-3 { grid-column: span 2; grid-row: span 2; }
+        .item-4 { grid-column: span 1; grid-row: span 1; }
+        .item-5 { grid-column: span 1; grid-row: span 1; }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+            }
+            .item-1, .item-2, .item-3, .item-4, .item-5 {
+                grid-column: span 1; grid-row: span 1; height: 160px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -361,13 +396,14 @@
         </div>
     </section>
 
-    <section>
-        <h2 class="script-font" style="font-size: 3rem;">Our Moments</h2>
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px;">
-            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
-            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
-            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
-            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+    <section style="height: auto; padding: 60px 20px;">
+        <h2 class="script-font" style="font-size: 3.5rem;">Our Moments</h2>
+        <div class="gallery-container">
+            <div class="gallery-item item-1"><img src="https://via.placeholder.com/400x600" alt="Moment 1"></div>
+            <div class="gallery-item item-2"><img src="https://via.placeholder.com/600x400" alt="Moment 2"></div>
+            <div class="gallery-item item-3"><img src="https://via.placeholder.com/400x600" alt="Moment 3"></div>
+            <div class="gallery-item item-4"><img src="https://via.placeholder.com/300x300" alt="Moment 4"></div>
+            <div class="gallery-item item-5"><img src="https://via.placeholder.com/300x300" alt="Moment 5"></div>
         </div>
     </section>
 
