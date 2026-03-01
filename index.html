@@ -9,7 +9,12 @@
     
     <style>
         /* TEMA & DASAR */
-        :root { --brown: #844204; --gold: #E67E22; --cream: #FFF5EC; }
+        :root { 
+            --brown: #844204; 
+            --gold: #E67E22; 
+            --cream: #FFF5EC; 
+            --soft-cream: #fdfaf5;
+        }
         
         html { 
             scroll-snap-type: y proximity; 
@@ -25,60 +30,45 @@
         }
 
         section {
-            height: 100vh; width: 100%;
+            min-height: 100vh; width: 100%;
             scroll-snap-align: start;
             scroll-snap-stop: normal; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            position: relative; text-align: center; padding: 40px 20px;
+            position: relative; text-align: center; padding: 60px 20px;
         }
 
-        /* --- DESAIN AMPLOP --- */
+        /* --- DESAIN AMPLOP (ENVELOPE) --- */
         #cover {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background-color: #fdfaf5;
+            background-color: var(--soft-cream);
             z-index: 3000;
             display: flex; flex-direction: column;
-        }
-
-        /* Garis Vertikal Tengah */
-        .vertical-line {
-            position: absolute; top: 0; bottom: 0; left: 50%;
-            width: 1px; background: rgba(132, 66, 4, 0.15);
-            z-index: 6; transform: translateX(-50%);
-            pointer-events: none;
+            transition: visibility 1.2s;
         }
 
         .envelope-top, .envelope-bottom {
             position: relative; width: 100%; height: 50vh;
-            background-color: #fdfaf5;
+            background-color: var(--soft-cream);
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             z-index: 5;
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; justify-content: center;
         }
+        
         .envelope-top { 
             align-items: flex-end; 
             border-bottom: 1px solid rgba(132, 66, 4, 0.1);
         }
+        
         .envelope-bottom { 
             align-items: flex-start; 
         }
-
-        .vertical-text {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            writing-mode: vertical-rl; text-orientation: mixed;
-            font-size: 0.6rem; letter-spacing: 3px; color: #aaa;
-            font-family: 'Montserrat', sans-serif; z-index: 7;
-            text-transform: lowercase;
-        }
-        .v-top { bottom: 20px; }
-        .v-bottom { top: 20px; }
 
         .ribbon-line {
             width: 100%; height: 32px; background: #d39d7b;
             display: flex; justify-content: center; align-items: center;
             position: absolute; top: 50%; transform: translateY(-50%);
-            z-index: 10; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
         }
 
         .ribbon-line::before {
@@ -91,7 +81,7 @@
         .open-btn-container {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%); z-index: 12;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease;
             text-align: center;
         }
 
@@ -100,7 +90,7 @@
             border: 3px solid white; border-radius: 50%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
+            position: relative; transition: 0.3s;
         }
 
         .circle-btn::after {
@@ -114,97 +104,83 @@
 
         .guest-box {
             position: relative; z-index: 6;
-            margin-top: 140px; background: white; padding: 15px 30px;
+            margin-top: 80px; background: white; padding: 15px 30px;
             border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             text-align: center; min-width: 220px; border: 1px solid #eee;
         }
 
-        /* ANIMASI BUKA */
+        /* --- FLOATING MUSIC CONTROL --- */
+        .music-control {
+            position: fixed; right: 20px; bottom: 20px;
+            z-index: 1000; display: none; cursor: pointer;
+        }
+        .music-circle {
+            width: 42px; height: 42px;
+            background: var(--cream); /* Warna Cream */
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            color: var(--brown); font-size: 1rem;
+        }
+        .playing .music-circle { animation: rotateMusic 4s linear infinite; }
+        @keyframes rotateMusic { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Trigger Animasi Buka */
         .opened .envelope-top { transform: translateY(-100%); }
         .opened .envelope-bottom { transform: translateY(100%); }
         .opened .ribbon-line { transform: translateY(100vh); opacity: 0; }
         .opened .open-btn-container { opacity: 0; pointer-events: none; }
-        .opened .vertical-line { opacity: 0; transition: 0.5s; }
         .opened#cover { pointer-events: none; visibility: hidden; transition-delay: 1.2s; }
 
-        /* MUSIK & DISK */
-        .music-disk {
-            position: fixed; bottom: 25px; right: 25px;
-            width: 55px; height: 55px;
-            background: #222; border-radius: 50%;
-            display: none; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 1000; cursor: pointer; border: 3px solid var(--gold);
-            animation: spin 3s linear infinite; animation-play-state: paused; 
-        }
-        .music-disk::before {
-            content: "\f001"; font-family: "Font Awesome 5 Free"; font-weight: 900; color: var(--gold);
-        }
-        .music-disk.playing { animation-play-state: running; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* TYPOGRAPHY & ELEMENTS */
+        /* --- TYPOGRAPHY & SECTIONS --- */
         .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; font-weight: 400; }
         .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
         
         .couple-container { 
             display: flex; justify-content: center; align-items: flex-start; gap: 40px; 
-            margin-top: 30px; width: 100%; max-width: 900px;
+            margin-top: 30px; width: 100%; max-width: 900px; flex-wrap: wrap;
         }
-        .couple-profile { flex: 1; display: flex; flex-direction: column; align-items: center; }
+        .couple-profile { flex: 1; min-width: 250px; display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
         .couple-frame { position: relative; width: 160px; height: 160px; margin-bottom: 20px; }
         .img-profile { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; object-fit: cover; position: relative; z-index: 2; }
         .couple-frame::after { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 1px solid var(--gold); border-radius: 50%; z-index: 1; }
+        
         .social-icons { margin-top: 10px; display: flex; gap: 8px; }
         .social-icons i { background: var(--brown); color: white; width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
 
-        /* COUNTDOWN */
-        .countdown-container { display: flex; gap: 15px; margin-top: 25px; }
+        .countdown-container { display: flex; gap: 15px; margin-top: 25px; justify-content: center; }
         .timer-box { 
             background: white; border: 1px solid var(--gold); border-radius: 10px; 
-            padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            padding: 10px; min-width: 70px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
         }
         .timer-box span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--gold); }
         .timer-box label { font-size: 0.65rem; font-family: 'Montserrat'; text-transform: uppercase; }
 
-        .batik-divider { width: 100%; height: 25px; background: var(--brown); border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); margin: 20px 0; opacity: 0.8; }
+        .batik-divider { width: 100%; height: 20px; background: var(--brown); border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); margin: 30px 0; opacity: 0.8; }
 
-        /* GALLERY & MODAL */
-        .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 180px); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
-        .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
+        .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; height: 200px; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-        .item-1 { grid-column: span 2; grid-row: span 2; }
-        .item-2 { grid-column: span 2; }
-        .item-3 { grid-column: span 2; grid-row: span 2; }
 
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+        /* MODAL */
+        .modal { display: none; position: fixed; z-index: 4000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
         .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); position: relative; }
-        .gift-card { background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee; }
-        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-family: 'Montserrat'; transition: 0.3s; }
-        .btn:hover { background: var(--gold); }
+        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-family: 'Montserrat'; transition: 0.3s; margin-top: 10px; }
         .btn-copy { background: var(--gold); color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; }
-        .heart-wrapper { animation: swing 3s ease-in-out infinite; transform-origin: top center; margin-bottom: 20px; }
-        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; font-family: 'Montserrat'; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .couple-container { flex-direction: column; gap: 20px; }
+        @media (max-width: 600px) {
             .hero-name { font-size: 3.5rem; }
-            .gallery-container { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
-            .item-1, .item-2, .item-3 { grid-column: span 2; grid-row: auto; height: 250px; }
+            .couple-container { gap: 10px; }
         }
     </style>
 </head>
 <body>
 
     <section id="cover">
-        <div class="vertical-line"></div>
-
-        <div class="envelope-top">
-            <div class="vertical-text v-top">the wedding of ali and mujay</div>
-        </div>
+        <div class="envelope-top"></div>
         
         <div class="ribbon-line"></div>
         
@@ -216,7 +192,6 @@
         </div>
 
         <div class="envelope-bottom">
-            <div class="vertical-text v-bottom">the wedding of ali and mujay</div>
             <div style="display: flex; justify-content: center; width: 100%;">
                 <div class="guest-box">
                     <p style="font-family: 'Montserrat'; font-size: 0.75rem; color: #888; margin-bottom: 5px;">Kepada Yth.</p>
@@ -226,7 +201,12 @@
         </div>
     </section>
 
-    <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
+    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
+        <div class="music-circle">
+            <i class="fas fa-music"></i>
+        </div>
+    </div>
+
     <audio id="bgMusic" loop>
         <source src="musik.mp3" type="audio/mpeg">
     </audio>
@@ -239,21 +219,23 @@
 
     <section>
         <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
+        <p style="max-width: 600px; margin-bottom: 30px;">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di hari bahagia kami.</p>
+        
         <div class="couple-container">
             <div class="couple-profile">
-                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
+                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile" alt="Ali"></div>
                 <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Ali</h3>
                 <p style="font-size: 0.85rem; margin-top: 5px;">Putra dari Bpk. X & Ibu Y</p>
                 <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
+                    <i class="fab fa-instagram"></i><i class="fab fa-twitter"></i>
                 </div>
             </div>
             <div class="couple-profile">
-                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
+                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile" alt="Mujay"></div>
                 <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Mujay</h3>
                 <p style="font-size: 0.85rem; margin-top: 5px;">Putri dari Bpk. A & Ibu B</p>
                 <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
+                    <i class="fab fa-instagram"></i><i class="fab fa-facebook-f"></i>
                 </div>
             </div>
         </div>
@@ -261,7 +243,7 @@
 
     <section style="background: #fdfaf5;">
         <p style="letter-spacing: 3px; font-family: 'Cinzel'; font-size: 0.85rem;">WALIMATUL URS</p>
-        <h2 class="script-font" style="font-size: 3.5rem;">Ali & Mujay</h2>
+        <h2 class="script-font" style="font-size: 3.5rem;">Save the Date</h2>
         <p style="margin: 10px 0; font-family: 'Montserrat'; font-weight: 600;">Minggu, 12 Desember 2026</p>
         
         <div class="countdown-container">
@@ -284,19 +266,18 @@
         </div>
     </section>
 
-    <section style="height: auto; padding: 60px 20px;">
+    <section style="height: auto; padding: 80px 20px;">
         <h2 class="script-font" style="font-size: 3.5rem;">Our Moments</h2>
         <div class="gallery-container">
-            <div class="gallery-item item-1"><img src="https://via.placeholder.com/400x600"></div>
-            <div class="gallery-item item-2"><img src="https://via.placeholder.com/600x400"></div>
-            <div class="gallery-item item-3"><img src="https://via.placeholder.com/400x600"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/400x600"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/600x400"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/400x600"></div>
             <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
         </div>
     </section>
 
     <section>
-        <div class="heart-wrapper"><span style="font-size: 45px;">🧡</span></div>
+        <span style="font-size: 45px;">🧡</span>
         <h2 class="script-font" style="font-size: 3rem;">Rsvp & Ucapan</h2>
         <div class="card" style="text-align: left;">
             <input type="text" class="form-control" placeholder="Nama Anda">
@@ -316,58 +297,74 @@
     <div id="giftModal" class="modal">
         <div class="modal-content">
             <h2 class="script-font" style="font-size: 2.5rem;">Wedding Gift</h2>
-            <div class="gift-card">
+            <div style="background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee;">
                 <p style="font-weight: 600;">BCA</p>
                 <p id="noRek">1234 5678 90</p>
                 <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
                 <button class="btn-copy" onclick="copyRekening('1234567890')">Salin Rekening</button>
             </div>
-            <button class="btn" onclick="closeGiftModal()" style="margin-top: 10px;">Tutup</button>
+            <button class="btn" onclick="closeGiftModal()">Tutup</button>
         </div>
     </div>
 
     <script>
+        // Set Guest Name from URL
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if (guest) { document.getElementById('guestName').innerText = guest; }
 
         function startInvitation() {
+            // Trigger Animasi Amplop
             document.getElementById('cover').classList.add('opened');
+            
+            // Aktifkan scroll
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
 
+            // Musik
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
-            audio.play().catch(e => console.log("Audio play blocked"));
-            btn.style.display = 'flex';
+            audio.play().catch(e => console.log("Audio play blocked by browser"));
+            btn.style.display = 'block'; 
             btn.classList.add('playing');
 
+            // Scroll ke content utama setelah animasi amplop
             setTimeout(() => {
                 document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
             }, 1300);
         }
 
+        // Countdown Logic
         const targetDate = new Date("Dec 12, 2026 08:00:00").getTime();
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
-            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            const daysEl = document.getElementById("days");
+            if (daysEl) {
+                document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            }
 
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.querySelector(".countdown-container").innerHTML = "ACARA SEDANG BERLANGSUNG";
+                const container = document.querySelector(".countdown-container");
+                if (container) container.innerHTML = "<h3>ACARA SEDANG BERLANGSUNG</h3>";
             }
         }, 1000);
 
         function toggleMusic() {
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
-            if (audio.paused) { audio.play(); btn.classList.add('playing'); } 
-            else { audio.pause(); btn.classList.remove('playing'); }
+            if (audio.paused) { 
+                audio.play(); 
+                btn.classList.add('playing'); 
+            } else { 
+                audio.pause(); 
+                btn.classList.remove('playing'); 
+            }
         }
 
         function openGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
@@ -376,6 +373,8 @@
             navigator.clipboard.writeText(no);
             alert("Nomor rekening berhasil disalin!");
         }
+        
+        // Close modal when clicking outside
         window.onclick = function(event) {
             let modal = document.getElementById('giftModal');
             if (event.target == modal) { modal.style.display = "none"; }
