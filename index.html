@@ -67,36 +67,50 @@
             to { transform: rotate(360deg); }
         }
 
-        /* UPDATE: ANIMASI LOVE DENGAN TALI MENGIKAT */
+        /* UPDATE: LOVE PERSIS SEPERTI GAMBAR (DENGAN TALI & SIMPUL) */
         .heart-wrapper {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             animation: swing 3s ease-in-out infinite;
             transform-origin: top center;
         }
 
-        /* Tali Pengikat */
+        /* Garis Tali */
         .heart-wrapper::before {
             content: "";
             position: absolute;
-            top: -40px; left: 50%;
-            width: 2px; height: 40px;
-            background: var(--gold);
+            top: -50px; left: 50%;
+            width: 1.5px; height: 50px;
+            background: #A68069; /* Warna tali rami */
             transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Simpul Tali (Knot) */
+        .heart-wrapper::after {
+            content: "∞"; /* Meniru bentuk simpul tali */
+            position: absolute;
+            top: -5px; left: 50%;
+            transform: translateX(-50%);
+            color: #A68069;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 3;
         }
 
         .heart-icon {
-            font-size: 45px;
-            color: #e74c3c;
+            font-size: 40px;
+            color: #d63031;
             display: inline-block;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
         }
 
-        /* Animasi Berayun Lembut */
         @keyframes swing {
-            0% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-            100% { transform: rotate(-5deg); }
+            0% { transform: rotate(-6deg); }
+            50% { transform: rotate(6deg); }
+            100% { transform: rotate(-6deg); }
         }
 
         .batik-divider {
@@ -126,7 +140,7 @@
     <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
     
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
     </audio>
 
     <section style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000'); background-size: cover;">
