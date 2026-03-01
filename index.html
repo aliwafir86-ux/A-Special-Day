@@ -3,74 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Ali & Mujay - Ultra Smooth</title>
+    <title>Undangan Ali & Mujay - Modern Adat</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root { --brown: #5D4037; --gold: #D4AF37; --cream: #FFF9F5; }
         
-        /* Smooth Snap Scroll */
+        /* Fitur Snap Scroll Utama yang Dioptimasi */
         html { 
             scroll-snap-type: y mandatory; 
             scroll-behavior: smooth;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body { 
             font-family: 'Montserrat', sans-serif; 
             background: var(--cream); 
-            color: var(--brown); 
+            color: var(--brown);
             overflow-x: hidden;
         }
 
         section {
-            height: 100vh; 
-            width: 100%;
+            height: 100vh; width: 100%;
             scroll-snap-align: start;
-            scroll-snap-stop: always; /* Memastikan scroll berhenti tepat di tiap section */
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-            position: relative; 
-            text-align: center; 
-            padding: 40px 20px;
+            scroll-snap-stop: always; /* Membuat scroll berhenti presisi di setiap slide */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; text-align: center; padding: 40px 20px;
         }
 
-        /* Ikon Musik Piringan Hitam (Khas Gambar Referensi) */
-        .music-control {
-            position: fixed; 
-            bottom: 30px; 
-            right: 30px;
-            z-index: 1000;
-            cursor: pointer;
-        }
-
-        .vinyl-record {
-            width: 50px;
-            height: 50px;
-            background: #C29B6D; /* Warna emas kecoklatan sesuai gambar */
+        /* Ikon Kaset Musik Piringan Hitam Berputar */
+        .music-disk {
+            position: fixed; bottom: 25px; right: 25px;
+            width: 55px; height: 55px;
+            background: #222; /* Warna dasar piringan hitam */
             border-radius: 50%;
-            border: 2px solid #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 1000; cursor: pointer; 
+            border: 3px solid var(--gold);
             animation: spin 3s linear infinite;
-            animation-play-state: paused;
+            animation-play-state: paused; /* Berhenti jika musik mati */
         }
 
-        /* Detail garis piringan hitam */
-        .vinyl-record::after {
-            content: '';
-            width: 15px;
-            height: 15px;
-            background: var(--brown);
+        /* Detail Tekstur Piringan Hitam */
+        .music-disk::before {
+            content: "";
+            position: absolute;
+            width: 80%; height: 80%;
             border-radius: 50%;
-            border: 2px solid #C29B6D;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .playing .vinyl-record {
+        /* Lubang Tengah Kaset */
+        .music-disk::after {
+            content: "";
+            position: absolute;
+            width: 12px; height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            border: 2px solid #222;
+        }
+
+        /* Jalankan Animasi saat musik Play */
+        .music-disk.playing {
             animation-play-state: running;
         }
 
@@ -81,26 +74,25 @@
 
         .batik-divider {
             width: 100%; height: 25px;
+            background: url('https://www.transparenttextures.com/patterns/natural-paper.png'), repeat-x;
             background-color: var(--brown);
             border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold);
             margin: 20px 0;
-            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
         }
 
         h1, .script-font { font-family: 'Great Vibes', cursive; color: var(--gold); }
         .hero-name { font-size: 3.5rem; }
-        .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
         .img-profile { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; }
-        .btn { background: var(--brown); color: white; padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; transition: 0.3s; }
-        .btn:hover { transform: scale(1.05); background: var(--gold); }
+        
+        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; transition: 0.3s ease; }
+        .btn:hover { background: var(--gold); transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
-        <div class="vinyl-record"></div>
-    </div>
-
+    <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
+    
     <audio id="bgMusic" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
@@ -159,29 +151,43 @@
         </div>
     </section>
 
+    <section>
+        <div class="card" style="background: var(--brown); color: white; border: none;">
+            <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Gift</h2>
+            <p style="font-size: 0.8rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
+            <button class="btn" style="background: var(--gold);">🎁 Kirim Hadiah</button>
+        </div>
+    </section>
+
+    <section>
+        <h1 style="font-size: 2rem;">Ali & Mujay</h1>
+        <div class="batik-divider"></div>
+        <p style="font-size: 0.9rem;">Kami yang berbahagia,</p>
+        <p style="font-weight: bold; margin-top: 10px;">Keluarga Besar Kedua Mempelai</p>
+        <div style="margin-top: 30px; font-size: 0.8rem;">
+            <p>Vendor: Digital Invitation Website</p>
+            <p style="font-style: italic; margin-top: 5px;">"Save Moments • Save Happiness"</p>
+        </div>
+    </section>
+
     <script>
         function startInvitation() {
-            const musicBtn = document.getElementById('musicBtn');
-            const audio = document.getElementById('bgMusic');
-            
-            // Aktifkan musik
+            var audio = document.getElementById('bgMusic');
+            var btn = document.getElementById('musicBtn');
             audio.play();
-            musicBtn.classList.add('playing');
-            
-            // Scroll ke section kedua secara halus
+            btn.classList.add('playing');
             window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
         }
 
         function toggleMusic() {
-            const musicBtn = document.getElementById('musicBtn');
-            const audio = document.getElementById('bgMusic');
-            
+            var audio = document.getElementById('bgMusic');
+            var btn = document.getElementById('musicBtn');
             if (audio.paused) {
                 audio.play();
-                musicBtn.classList.add('playing');
+                btn.classList.add('playing');
             } else {
                 audio.pause();
-                musicBtn.classList.remove('playing');
+                btn.classList.remove('playing');
             }
         }
     </script>
