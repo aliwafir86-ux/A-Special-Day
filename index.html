@@ -119,7 +119,6 @@
             height: 150px;
             margin: 0 auto 15px;
         }
-        /* Border hiasan di belakang foto */
         .couple-frame::after {
             content: '';
             position: absolute;
@@ -158,6 +157,62 @@
 
         .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; transition: 0.3s ease; }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
+
+        /* --- STYLES UNTUK POPUP HADIAH (GABUNGAN) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        .modal-content {
+            background-color: #fcf4e8; /* Warna semi cream lucu */
+            padding: 25px;
+            border-radius: 20px;
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
+            border: 3px solid var(--gold);
+            position: relative;
+            animation: zoomIn 0.3s ease-out; /* Animasi Zoom Membesar */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--brown);
+            font-weight: bold;
+        }
+        .gift-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 12px 0;
+            border: 1px solid #eee;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+        .btn-copy {
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-copy:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
@@ -167,6 +222,30 @@
     <audio id="bgMusic" loop>
         <source src="musik.mp3" type="audio/mpeg">
     </audio>
+
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeGiftModal()">&times;</span>
+            <h2 class="script-font" style="font-size: 2rem;">Wedding Gift</h2>
+            <p style="font-size: 0.75rem; margin-bottom: 10px;">Dompet Digital & Rekening</p>
+            
+            <div class="gift-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_danain.png" width="80" alt="DANA" style="margin-bottom:5px;">
+                <p style="font-weight: 600; font-size: 1rem; color: #222;">0812-3456-7890</p>
+                <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
+                <button class="btn-copy" onclick="copyRekening('081234567890')">Salin Nomor</button>
+            </div>
+
+            <div class="gift-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" width="70" alt="BCA" style="margin-bottom:5px;">
+                <p style="font-weight: 600; font-size: 1rem; color: #222;">1234 5678 90</p>
+                <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
+                <button class="btn-copy" onclick="copyRekening('1234567890')">Salin Rekening</button>
+            </div>
+
+            <p style="font-size: 0.7rem; font-style: italic; color: var(--brown);">Terima kasih atas doa & kado terbaik Anda.</p>
+        </div>
+    </div>
 
     <section style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000'); background-size: cover;">
         <p style="color: white; letter-spacing: 4px;">WEDDING INVITATION</p>
@@ -261,7 +340,7 @@
         <div class="card" style="background: var(--brown); color: white; border: none;">
             <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Gift</h2>
             <p style="font-size: 0.8rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
-            <button class="btn" style="background: var(--gold);">🎁 Kirim Hadiah</button>
+            <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
         </div>
     </section>
 
@@ -277,6 +356,29 @@
     </section>
 
     <script>
+        // --- FUNGSI BARU UNTUK MODAL ---
+        function openGiftModal() {
+            document.getElementById('giftModal').style.display = 'flex';
+        }
+
+        function closeGiftModal() {
+            document.getElementById('giftModal').style.display = 'none';
+        }
+
+        function copyRekening(nomor) {
+            navigator.clipboard.writeText(nomor);
+            alert("Nomor berhasil disalin!");
+        }
+
+        // Tutup modal jika user klik di luar box
+        window.onclick = function(event) {
+            var modal = document.getElementById('giftModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // --- FUNGSI ASLI KODE KAMU ---
         function startInvitation() {
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
