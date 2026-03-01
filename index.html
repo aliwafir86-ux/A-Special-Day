@@ -24,7 +24,7 @@
         section {
             height: 100vh; width: 100%;
             scroll-snap-align: start;
-            scroll-snap-stop: always; /* Membuat scroll berhenti presisi di setiap slide */
+            scroll-snap-stop: always; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             position: relative; text-align: center; padding: 40px 20px;
         }
@@ -33,17 +33,16 @@
         .music-disk {
             position: fixed; bottom: 25px; right: 25px;
             width: 55px; height: 55px;
-            background: #222; /* Warna dasar piringan hitam */
+            background: #222; 
             border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             z-index: 1000; cursor: pointer; 
             border: 3px solid var(--gold);
             animation: spin 3s linear infinite;
-            animation-play-state: paused; /* Berhenti jika musik mati */
+            animation-play-state: paused; 
         }
 
-        /* Detail Tekstur Piringan Hitam */
         .music-disk::before {
             content: "";
             position: absolute;
@@ -52,7 +51,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Lubang Tengah Kaset */
         .music-disk::after {
             content: "";
             position: absolute;
@@ -62,10 +60,7 @@
             border: 2px solid #222;
         }
 
-        /* Jalankan Animasi saat musik Play */
-        .music-disk.playing {
-            animation-play-state: running;
-        }
+        .music-disk.playing { animation-play-state: running; }
 
         @keyframes spin {
             from { transform: rotate(0deg); }
@@ -85,6 +80,11 @@
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
         .img-profile { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; }
         
+        /* Form Styling */
+        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; font-family: 'Montserrat'; }
+        .rsvp-stats { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
+        .stat-item { padding: 5px 15px; border-radius: 5px; color: white; font-size: 0.8rem; flex: 1; }
+
         .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; transition: 0.3s ease; }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
     </style>
@@ -148,6 +148,29 @@
             <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
             <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
             <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+        </div>
+    </section>
+
+    <section>
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583158.png" width="50" style="margin-bottom: 10px;">
+        <h2 class="script-font" style="font-size: 2.5rem;">Rsvp & Ucapan</h2>
+        <p style="font-size: 0.8rem; margin-bottom: 20px;">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
+        
+        <div class="card" style="text-align: left;">
+            <div class="rsvp-stats">
+                <div class="stat-item" style="background: #28a745;">0 Hadir</div>
+                <div class="stat-item" style="background: #dc3545;">0 Tidak Hadir</div>
+                <div class="stat-item" style="background: #ffc107;">0 Ragu</div>
+            </div>
+            <input type="text" class="form-control" placeholder="Nama Anda">
+            <textarea class="form-control" rows="3" placeholder="Berikan Ucapan & Doa"></textarea>
+            <select class="form-control">
+                <option value="">Konfirmasi Kehadiran</option>
+                <option value="hadir">Hadir</option>
+                <option value="tidak">Tidak Hadir</option>
+                <option value="ragu">Masih Ragu</option>
+            </select>
+            <button class="btn" style="width: 100%; background: #A68069;">Kirim</button>
         </div>
     </section>
 
