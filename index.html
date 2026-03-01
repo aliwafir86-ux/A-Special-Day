@@ -32,7 +32,7 @@
             position: relative; text-align: center; padding: 40px 20px;
         }
 
-        /* --- UPDATE DESAIN AMPLOP (MERGE) --- */
+        /* --- DESAIN AMPLOP --- */
         #cover {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-color: #fdfaf5;
@@ -40,7 +40,14 @@
             display: flex; flex-direction: column;
         }
 
-        /* 1. EFEK GARIS MEMBELAH */
+        /* Garis Vertikal Tengah */
+        .vertical-line {
+            position: absolute; top: 0; bottom: 0; left: 50%;
+            width: 1px; background: rgba(132, 66, 4, 0.15);
+            z-index: 6; transform: translateX(-50%);
+            pointer-events: none;
+        }
+
         .envelope-top, .envelope-bottom {
             position: relative; width: 100%; height: 50vh;
             background-color: #fdfaf5;
@@ -51,11 +58,21 @@
         }
         .envelope-top { 
             align-items: flex-end; 
-            border-bottom: 1px solid rgba(132, 66, 4, 0.15); /* Garis pembelah halus horizontal */
+            border-bottom: 1px solid rgba(132, 66, 4, 0.1);
         }
         .envelope-bottom { 
             align-items: flex-start; 
         }
+
+        .vertical-text {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            writing-mode: vertical-rl; text-orientation: mixed;
+            font-size: 0.6rem; letter-spacing: 3px; color: #aaa;
+            font-family: 'Montserrat', sans-serif; z-index: 7;
+            text-transform: lowercase;
+        }
+        .v-top { bottom: 20px; }
+        .v-bottom { top: 20px; }
 
         .ribbon-line {
             width: 100%; height: 32px; background: #d39d7b;
@@ -102,48 +119,91 @@
             text-align: center; min-width: 220px; border: 1px solid #eee;
         }
 
-        /* 3. UPDATE TOMBOL MUSIK FLOATING (DIPERKECIL & TANPA TEKS) */
-        .music-control {
-            position: fixed; right: 20px; bottom: 20px; /* Pojok bawah lebih bersih */
-            z-index: 1000; display: none; cursor: pointer;
-        }
-        .music-circle {
-            width: 38px; height: 38px; /* Lebih kecil */
-            background: white; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: #844204; font-size: 0.9rem;
-        }
-        .playing .music-circle { animation: rotateMusic 4s linear infinite; }
-        @keyframes rotateMusic { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Trigger Animasi */
+        /* ANIMASI BUKA */
         .opened .envelope-top { transform: translateY(-100%); }
         .opened .envelope-bottom { transform: translateY(100%); }
         .opened .ribbon-line { transform: translateY(100vh); opacity: 0; }
         .opened .open-btn-container { opacity: 0; pointer-events: none; }
+        .opened .vertical-line { opacity: 0; transition: 0.5s; }
         .opened#cover { pointer-events: none; visibility: hidden; transition-delay: 1.2s; }
+
+        /* MUSIK & DISK */
+        .music-disk {
+            position: fixed; bottom: 25px; right: 25px;
+            width: 55px; height: 55px;
+            background: #222; border-radius: 50%;
+            display: none; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 1000; cursor: pointer; border: 3px solid var(--gold);
+            animation: spin 3s linear infinite; animation-play-state: paused; 
+        }
+        .music-disk::before {
+            content: "\f001"; font-family: "Font Awesome 5 Free"; font-weight: 900; color: var(--gold);
+        }
+        .music-disk.playing { animation-play-state: running; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* TYPOGRAPHY & ELEMENTS */
         .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; font-weight: 400; }
         .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
-        .couple-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin-top: 30px; width: 100%; max-width: 900px; }
+        
+        .couple-container { 
+            display: flex; justify-content: center; align-items: flex-start; gap: 40px; 
+            margin-top: 30px; width: 100%; max-width: 900px;
+        }
         .couple-profile { flex: 1; display: flex; flex-direction: column; align-items: center; }
         .couple-frame { position: relative; width: 160px; height: 160px; margin-bottom: 20px; }
         .img-profile { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; object-fit: cover; position: relative; z-index: 2; }
         .couple-frame::after { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 1px solid var(--gold); border-radius: 50%; z-index: 1; }
         .social-icons { margin-top: 10px; display: flex; gap: 8px; }
         .social-icons i { background: var(--brown); color: white; width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+
+        /* COUNTDOWN */
         .countdown-container { display: flex; gap: 15px; margin-top: 25px; }
-        .timer-box { background: white; border: 1px solid var(--gold); border-radius: 10px; padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .timer-box { 
+            background: white; border: 1px solid var(--gold); border-radius: 10px; 
+            padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+        }
         .timer-box span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--gold); }
         .timer-box label { font-size: 0.65rem; font-family: 'Montserrat'; text-transform: uppercase; }
+
+        .batik-divider { width: 100%; height: 25px; background: var(--brown); border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); margin: 20px 0; opacity: 0.8; }
+
+        /* GALLERY & MODAL */
+        .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 180px); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
+        .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .item-1 { grid-column: span 2; grid-row: span 2; }
+        .item-2 { grid-column: span 2; }
+        .item-3 { grid-column: span 2; grid-row: span 2; }
+
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+        .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); position: relative; }
+        .gift-card { background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee; }
+        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-family: 'Montserrat'; transition: 0.3s; }
+        .btn:hover { background: var(--gold); }
+        .btn-copy { background: var(--gold); color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; }
+        .heart-wrapper { animation: swing 3s ease-in-out infinite; transform-origin: top center; margin-bottom: 20px; }
+        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .couple-container { flex-direction: column; gap: 20px; }
+            .hero-name { font-size: 3.5rem; }
+            .gallery-container { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+            .item-1, .item-2, .item-3 { grid-column: span 2; grid-row: auto; height: 250px; }
+        }
     </style>
 </head>
 <body>
 
     <section id="cover">
+        <div class="vertical-line"></div>
+
         <div class="envelope-top">
+            <div class="vertical-text v-top">the wedding of ali and mujay</div>
         </div>
         
         <div class="ribbon-line"></div>
@@ -156,6 +216,7 @@
         </div>
 
         <div class="envelope-bottom">
+            <div class="vertical-text v-bottom">the wedding of ali and mujay</div>
             <div style="display: flex; justify-content: center; width: 100%;">
                 <div class="guest-box">
                     <p style="font-family: 'Montserrat'; font-size: 0.75rem; color: #888; margin-bottom: 5px;">Kepada Yth.</p>
@@ -165,12 +226,7 @@
         </div>
     </section>
 
-    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
-        <div class="music-circle">
-            <i class="fas fa-music"></i>
-        </div>
-    </div>
-
+    <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
     <audio id="bgMusic" loop>
         <source src="musik.mp3" type="audio/mpeg">
     </audio>
@@ -180,6 +236,95 @@
         <h1 class="hero-name">Ali & Mujay</h1>
         <p style="color: white; font-style: italic;">"A happy marriage is a long conversation which always seems too short."</p>
     </section>
+
+    <section>
+        <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
+        <div class="couple-container">
+            <div class="couple-profile">
+                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
+                <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Ali</h3>
+                <p style="font-size: 0.85rem; margin-top: 5px;">Putra dari Bpk. X & Ibu Y</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
+                </div>
+            </div>
+            <div class="couple-profile">
+                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
+                <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Mujay</h3>
+                <p style="font-size: 0.85rem; margin-top: 5px;">Putri dari Bpk. A & Ibu B</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: #fdfaf5;">
+        <p style="letter-spacing: 3px; font-family: 'Cinzel'; font-size: 0.85rem;">WALIMATUL URS</p>
+        <h2 class="script-font" style="font-size: 3.5rem;">Ali & Mujay</h2>
+        <p style="margin: 10px 0; font-family: 'Montserrat'; font-weight: 600;">Minggu, 12 Desember 2026</p>
+        
+        <div class="countdown-container">
+            <div class="timer-box"><span id="days">00</span><label>Hari</label></div>
+            <div class="timer-box"><span id="hours">00</span><label>Jam</label></div>
+            <div class="timer-box"><span id="minutes">00</span><label>Menit</label></div>
+            <div class="timer-box"><span id="seconds">00</span><label>Detik</label></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="batik-divider"></div>
+        <h2 class="script-font" style="font-size: 3rem;">Our Love Story</h2>
+        <div class="card" style="text-align: left; margin-top: 20px;">
+            <p style="color: var(--gold); font-weight: bold;">06 JAN 202X - Our First Meet</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Pertemuan pertama kami yang membawa sejuta rasa...</p>
+            <hr style="margin: 15px 0; border: 0.5px solid #eee;">
+            <p style="color: var(--gold); font-weight: bold;">21 MEI 202X - Engagement Day</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Langkah serius kami menuju ikatan suci.</p>
+        </div>
+    </section>
+
+    <section style="height: auto; padding: 60px 20px;">
+        <h2 class="script-font" style="font-size: 3.5rem;">Our Moments</h2>
+        <div class="gallery-container">
+            <div class="gallery-item item-1"><img src="https://via.placeholder.com/400x600"></div>
+            <div class="gallery-item item-2"><img src="https://via.placeholder.com/600x400"></div>
+            <div class="gallery-item item-3"><img src="https://via.placeholder.com/400x600"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
+            <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="heart-wrapper"><span style="font-size: 45px;">🧡</span></div>
+        <h2 class="script-font" style="font-size: 3rem;">Rsvp & Ucapan</h2>
+        <div class="card" style="text-align: left;">
+            <input type="text" class="form-control" placeholder="Nama Anda">
+            <textarea class="form-control" rows="3" placeholder="Berikan Ucapan & Doa"></textarea>
+            <button class="btn" style="width: 100%; background: var(--gold);">Kirim Ucapan</button>
+        </div>
+    </section>
+
+    <section>
+        <div class="card" style="background: var(--brown); color: white; border: none; text-align: center;">
+            <h2 class="script-font" style="font-size: 3rem; color: var(--gold);">Wedding Gift</h2>
+            <p style="font-size: 0.9rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
+            <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
+        </div>
+    </section>
+
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <h2 class="script-font" style="font-size: 2.5rem;">Wedding Gift</h2>
+            <div class="gift-card">
+                <p style="font-weight: 600;">BCA</p>
+                <p id="noRek">1234 5678 90</p>
+                <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
+                <button class="btn-copy" onclick="copyRekening('1234567890')">Salin Rekening</button>
+            </div>
+            <button class="btn" onclick="closeGiftModal()" style="margin-top: 10px;">Tutup</button>
+        </div>
+    </div>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -194,7 +339,7 @@
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
             audio.play().catch(e => console.log("Audio play blocked"));
-            btn.style.display = 'block'; 
+            btn.style.display = 'flex';
             btn.classList.add('playing');
 
             setTimeout(() => {
@@ -206,20 +351,15 @@
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-            
-            // Periksa keberadaan elemen sebelum mengisi teks untuk menghindari error
-            const daysEl = document.getElementById("days");
-            if(daysEl) {
-                daysEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
-            }
+
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
 
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                const countContainer = document.querySelector(".countdown-container");
-                if(countContainer) countContainer.innerHTML = "ACARA SEDANG BERLANGSUNG";
+                document.querySelector(".countdown-container").innerHTML = "ACARA SEDANG BERLANGSUNG";
             }
         }, 1000);
 
@@ -228,6 +368,17 @@
             var btn = document.getElementById('musicBtn');
             if (audio.paused) { audio.play(); btn.classList.add('playing'); } 
             else { audio.pause(); btn.classList.remove('playing'); }
+        }
+
+        function openGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
+        function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
+        function copyRekening(no) {
+            navigator.clipboard.writeText(no);
+            alert("Nomor rekening berhasil disalin!");
+        }
+        window.onclick = function(event) {
+            let modal = document.getElementById('giftModal');
+            if (event.target == modal) { modal.style.display = "none"; }
         }
     </script>
 </body>
