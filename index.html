@@ -17,12 +17,11 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* MODIFIKASI DISINI: Body dikunci saat awal load */
         body { 
             font-family: 'Libre Baskerville', serif;
             background: var(--cream); 
             color: var(--brown);
-            overflow: hidden; /* Mencegah scroll di awal */
+            overflow: hidden; /* Dikunci di awal agar tidak bisa scroll */
         }
 
         section {
@@ -33,7 +32,7 @@
             position: relative; text-align: center; padding: 40px 20px;
         }
 
-        /* --- KODE BARU: COVER / LANDING PAGE --- */
+        /* --- COVER / LANDING PAGE --- */
         .cover-page {
             background-color: var(--cream);
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
@@ -68,8 +67,8 @@
             align-items: center;
         }
         .circle-btn {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             background: var(--gold);
             border: 4px solid white;
             border-radius: 50%;
@@ -99,7 +98,7 @@
         .guest-box p { font-size: 0.9rem; margin-bottom: 5px; font-family: 'Montserrat'; }
         .guest-name { font-family: 'Cinzel'; font-weight: bold; font-size: 1.2rem; color: var(--gold); }
 
-        /* MUSIK & ANIMASI */
+        /* MUSIK & DISK */
         .music-disk {
             position: fixed; bottom: 25px; right: 25px;
             width: 55px; height: 55px;
@@ -112,28 +111,41 @@
         .music-disk.playing { animation-play-state: running; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* GALLERY & COUPLE STYLES */
-        .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; }
+        /* TYPOGRAPHY & ELEMENTS */
+        .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; font-weight: 400; }
         .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
         
         .couple-container { display: flex; justify-content: center; gap: 30px; margin-top: 30px; width: 100%; }
+        .couple-profile { flex: 1; max-width: 200px; }
         .couple-frame { position: relative; width: 130px; height: 130px; margin: 0 auto 20px; }
         .img-profile { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; object-fit: cover; position: relative; z-index: 2; }
         .couple-frame::after { content: ''; position: absolute; top: -7px; left: -7px; right: -7px; bottom: -7px; border: 3px solid var(--gold); border-radius: 50%; z-index: 1; }
         
-        .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
+        .batik-divider { width: 100%; height: 25px; background: var(--brown); border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); margin: 20px 0; opacity: 0.8; }
+
+        /* GALLERY */
+        .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 180px); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
         .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         .item-1 { grid-column: span 2; grid-row: span 2; }
         .item-2 { grid-column: span 2; }
         .item-3 { grid-column: span 2; grid-row: span 2; }
 
-        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; }
+        /* MODAL & GIFTS */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+        .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); position: relative; }
+        .gift-card { background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee; }
         
-        /* Modal Gift */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; }
-        .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); }
+        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-family: 'Montserrat'; transition: 0.3s; }
+        .btn:hover { background: var(--gold); }
+        .btn-copy { background: var(--gold); color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; }
+
+        /* ANIMATION SWING */
+        .heart-wrapper { animation: swing 3s ease-in-out infinite; transform-origin: top center; margin-bottom: 20px; }
+        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+
+        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -141,10 +153,10 @@
     <section class="cover-page" id="cover">
         <div class="ribbon-line">
             <div class="open-btn-container">
-                <a href="javascript:void(0)" class="circle-btn" onclick="startInvitation()">
+                <div class="circle-btn" onclick="startInvitation()">
                     <i class="fas fa-envelope-open"></i>
                     <span>Buka Undangan</span>
-                </a>
+                </div>
             </div>
         </div>
         
@@ -166,12 +178,12 @@
     </section>
 
     <section>
-        <h2 class="script-font" style="font-size: 2.5rem;">Assalamu'alaikum Wr. Wb.</h2>
+        <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
         <div class="couple-container">
             <div class="couple-profile">
                 <div class="couple-frame"><img src="https://via.placeholder.com/150" class="img-profile"></div>
                 <h3 class="script-font" style="font-size: 2.8rem;">Ali</h3>
-                <p>Putra dari Bpk. X & Ibu Y</p>
+                <p style="font-size: 0.85rem;">Putra dari Bpk. X & Ibu Y</p>
             </div>
             <div style="display: flex; align-items: center; padding-top: 50px;">
                 <p class="script-font" style="font-size: 2.5rem;">&</p>
@@ -179,8 +191,20 @@
             <div class="couple-profile">
                 <div class="couple-frame"><img src="https://via.placeholder.com/150" class="img-profile"></div>
                 <h3 class="script-font" style="font-size: 2.8rem;">Mujay</h3>
-                <p>Putri dari Bpk. A & Ibu B</p>
+                <p style="font-size: 0.85rem;">Putri dari Bpk. A & Ibu B</p>
             </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="batik-divider"></div>
+        <h2 class="script-font" style="font-size: 3rem;">Our Love Story</h2>
+        <div class="card" style="text-align: left; margin-top: 20px;">
+            <p style="color: var(--gold); font-weight: bold;">06 JAN 202X - Our First Meet</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Pertemuan pertama kami yang membawa sejuta rasa...</p>
+            <hr style="margin: 15px 0; border: 0.5px solid #eee;">
+            <p style="color: var(--gold); font-weight: bold;">21 MEI 202X - Engagement Day</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Langkah serius kami menuju ikatan suci.</p>
         </div>
     </section>
 
@@ -196,14 +220,33 @@
     </section>
 
     <section>
-        <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
+        <div class="heart-wrapper"><span style="font-size: 45px;">🧡</span></div>
+        <h2 class="script-font" style="font-size: 3rem;">Rsvp & Ucapan</h2>
+        <div class="card" style="text-align: left;">
+            <input type="text" class="form-control" placeholder="Nama Anda">
+            <textarea class="form-control" rows="3" placeholder="Berikan Ucapan & Doa"></textarea>
+            <button class="btn" style="width: 100%; background: var(--gold);">Kirim Ucapan</button>
+        </div>
+    </section>
+
+    <section>
+        <div class="card" style="background: var(--brown); color: white; border: none; text-align: center;">
+            <h2 class="script-font" style="font-size: 3rem; color: var(--gold);">Wedding Gift</h2>
+            <p style="font-size: 0.9rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
+            <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
+        </div>
     </section>
 
     <div id="giftModal" class="modal">
         <div class="modal-content">
-            <h2 class="script-font">Wedding Gift</h2>
-            <p>BCA: 1234 5678 90</p>
-            <button class="btn" onclick="closeGiftModal()">Tutup</button>
+            <h2 class="script-font" style="font-size: 2.5rem;">Wedding Gift</h2>
+            <div class="gift-card">
+                <p style="font-weight: 600;">BCA</p>
+                <p id="noRek">1234 5678 90</p>
+                <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
+                <button class="btn-copy" onclick="copyRekening('1234567890')">Salin Rekening</button>
+            </div>
+            <button class="btn" onclick="closeGiftModal()" style="margin-top: 10px;">Tutup</button>
         </div>
     </div>
 
@@ -211,23 +254,21 @@
         // Ambil nama dari URL
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
-        if (guest) {
-            document.getElementById('guestName').innerText = guest;
-        }
+        if (guest) { document.getElementById('guestName').innerText = guest; }
 
         function startInvitation() {
-            // MODIFIKASI: Aktifkan kembali scroll body
+            // Aktifkan scroll
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
 
-            // Mainkan musik
+            // Musik
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
             audio.play();
             btn.style.display = 'flex';
             btn.classList.add('playing');
 
-            // Scroll ke halaman berikutnya
+            // Scroll ke isi
             document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -240,6 +281,17 @@
 
         function openGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
         function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
+        
+        function copyRekening(no) {
+            navigator.clipboard.writeText(no);
+            alert("Nomor rekening berhasil disalin!");
+        }
+
+        // Tutup modal jika klik di luar box
+        window.onclick = function(event) {
+            let modal = document.getElementById('giftModal');
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
     </script>
 </body>
 </html>
