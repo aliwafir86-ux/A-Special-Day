@@ -40,6 +40,19 @@
             display: flex; flex-direction: column;
         }
 
+        /* KODE BARU: GARIS LIPATAN VERTIKAL */
+        .vertical-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            background: rgba(132, 66, 4, 0.15); /* Garis cokelat halus */
+            z-index: 6; /* Di atas panel agar terlihat membelah */
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
         /* 1. EFEK GARIS MEMBELAH */
         .envelope-top, .envelope-bottom {
             position: relative; width: 100%; height: 50vh;
@@ -51,7 +64,7 @@
         }
         .envelope-top { 
             align-items: flex-end; 
-            border-bottom: 1px solid rgba(132, 66, 4, 0.15); /* Garis pembelah halus */
+            border-bottom: 1px solid rgba(132, 66, 4, 0.15); /* Garis pembelah halus horizontal */
         }
         .envelope-bottom { 
             align-items: flex-start; 
@@ -62,17 +75,11 @@
             position: absolute; left: 50%; transform: translateX(-50%);
             writing-mode: vertical-rl; text-orientation: mixed;
             font-size: 0.6rem; letter-spacing: 3px; color: #aaa;
-            font-family: 'Montserrat', sans-serif; z-index: 2;
+            font-family: 'Montserrat', sans-serif; z-index: 7;
             text-transform: lowercase;
         }
         .v-top { bottom: 20px; } /* Menempel di bawah panel atas */
         .v-bottom { top: 20px; } /* Menempel di atas panel bawah */
-
-        /* Garis statis di belakang teks (opsional) */
-        #cover::before {
-            content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
-            width: 1px; background: rgba(132, 66, 4, 0.05); z-index: 1;
-        }
 
         .ribbon-line {
             width: 100%; height: 32px; background: #d39d7b;
@@ -142,6 +149,7 @@
         .opened .envelope-bottom { transform: translateY(100%); }
         .opened .ribbon-line { transform: translateY(100vh); opacity: 0; }
         .opened .open-btn-container { opacity: 0; pointer-events: none; }
+        .opened .vertical-line { opacity: 0; transition: 0.5s; } /* Garis vertikal hilang saat dibuka */
         .opened#cover { pointer-events: none; visibility: hidden; transition-delay: 1.2s; }
 
         /* TYPOGRAPHY & ELEMENTS */
@@ -159,27 +167,13 @@
         .timer-box { background: white; border: 1px solid var(--gold); border-radius: 10px; padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .timer-box span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--gold); }
         .timer-box label { font-size: 0.65rem; font-family: 'Montserrat'; text-transform: uppercase; }
-        .batik-divider { width: 100%; height: 25px; background: var(--brown); border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); margin: 20px 0; opacity: 0.8; }
-        .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 180px); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
-        .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-        .item-1 { grid-column: span 2; grid-row: span 2; }
-        .item-2 { grid-column: span 2; }
-        .item-3 { grid-column: span 2; grid-row: span 2; }
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
-        .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); position: relative; }
-        .gift-card { background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee; }
-        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-family: 'Montserrat'; transition: 0.3s; }
-        .btn:hover { background: var(--gold); }
-        .btn-copy { background: var(--gold); color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; }
-        .heart-wrapper { animation: swing 3s ease-in-out infinite; transform-origin: top center; margin-bottom: 20px; }
-        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
-        .form-control { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
 <body>
 
     <section id="cover">
+        <div class="vertical-line"></div>
+
         <div class="envelope-top">
             <div class="vertical-text v-top">the wedding of ali and mujay</div>
         </div>
@@ -221,41 +215,6 @@
         <p style="color: white; font-style: italic;">"A happy marriage is a long conversation which always seems too short."</p>
     </section>
 
-    <section>
-        <h2 class="script-font" style="font-size: 2.5rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
-        <div class="couple-container">
-            <div class="couple-profile">
-                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
-                <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Ali</h3>
-                <p style="font-size: 0.85rem; margin-top: 5px;">Putra dari Bpk. X & Ibu Y</p>
-                <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
-                </div>
-            </div>
-            <div class="couple-profile">
-                <div class="couple-frame"><img src="https://via.placeholder.com/200" class="img-profile"></div>
-                <h3 class="script-font" style="font-size: 2.8rem; margin-bottom: 0;">Mujay</h3>
-                <p style="font-size: 0.85rem; margin-top: 5px;">Putri dari Bpk. A & Ibu B</p>
-                <div class="social-icons">
-                    <i class="fab fa-facebook-f"></i><i class="fab fa-twitter"></i><i class="fab fa-instagram"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section style="background: #fdfaf5;">
-        <p style="letter-spacing: 3px; font-family: 'Cinzel'; font-size: 0.85rem;">WALIMATUL URS</p>
-        <h2 class="script-font" style="font-size: 3.5rem;">Ali & Mujay</h2>
-        <p style="margin: 10px 0; font-family: 'Montserrat'; font-weight: 600;">Minggu, 12 Desember 2026</p>
-        
-        <div class="countdown-container">
-            <div class="timer-box"><span id="days">00</span><label>Hari</label></div>
-            <div class="timer-box"><span id="hours">00</span><label>Jam</label></div>
-            <div class="timer-box"><span id="minutes">00</span><label>Menit</label></div>
-            <div class="timer-box"><span id="seconds">00</span><label>Detik</label></div>
-        </div>
-    </section>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
@@ -269,7 +228,7 @@
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
             audio.play().catch(e => console.log("Audio play blocked"));
-            btn.style.display = 'flex'; // Menggunakan flex agar vertikal ikon & teks Music muncul
+            btn.style.display = 'flex'; 
             btn.classList.add('playing');
 
             setTimeout(() => {
@@ -296,13 +255,6 @@
             var btn = document.getElementById('musicBtn');
             if (audio.paused) { audio.play(); btn.classList.add('playing'); } 
             else { audio.pause(); btn.classList.remove('playing'); }
-        }
-
-        function openGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
-        function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
-        function copyRekening(no) {
-            navigator.clipboard.writeText(no);
-            alert("Nomor rekening berhasil disalin!");
         }
     </script>
 </body>
