@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Ali & Mujay - Modern Adat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root { --brown: #5D4037; --gold: #D4AF37; --cream: #FFF9F5; }
+        
+        /* Fitur Snap Scroll Utama */
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--brown); }
+
+        section {
+            height: 100vh; width: 100%;
+            scroll-snap-align: start;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; text-align: center; padding: 40px 20px;
+        }
+
+        /* Ikon Musik Melayang Lucu */
+        .music-disk {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 45px; height: 45px;
+            background: #fff; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000; cursor: pointer; border: 2px solid var(--gold);
+        }
+
+        .batik-divider {
+            width: 100%; height: 25px;
+            background: url('https://www.transparenttextures.com/patterns/natural-paper.png'), repeat-x;
+            background-color: var(--brown);
+            border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold);
+            margin: 20px 0;
+        }
+
+        h1, .script-font { font-family: 'Great Vibes', cursive; color: var(--gold); }
+        .hero-name { font-size: 3.5rem; }
+        .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
+        .img-profile { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--gold); object-fit: cover; }
+        
+        .btn { background: var(--brown); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="music-disk" onclick="toggleMusic()">🎵</div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <section style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000'); background-size: cover;">
+        <p style="color: white; letter-spacing: 4px;">WEDDING INVITATION</p>
+        <h1 class="hero-name">Ali & Mujay</h1>
+        <p style="color: white; font-style: italic;">"A happy marriage is a long conversation which always seems too short."</p>
+        <button class="btn" style="background: var(--gold);" onclick="startInvitation()">Buka Undangan</button>
+    </section>
+
+    <section>
+        <h2 class="script-font" style="font-size: 2.5rem;">Groom & Bride</h2>
+        <div style="margin-top: 20px;">
+            <img src="https://via.placeholder.com/150" class="img-profile">
+            <h3 style="margin: 10px 0;">Ali</h3>
+            <p style="font-size: 0.8rem;">Putra dari Bpk. X & Ibu Y</p>
+        </div>
+        <p style="margin: 15px 0; font-weight: bold; color: var(--gold);">DENGAN</p>
+        <div>
+            <img src="https://via.placeholder.com/150" class="img-profile">
+            <h3 style="margin: 10px 0;">Mujay</h3>
+            <p style="font-size: 0.8rem;">Putri dari Bpk. A & Ibu B</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="batik-divider"></div>
+        <h2 class="script-font" style="font-size: 2.5rem;">Our Love Story</h2>
+        <div class="card" style="text-align: left; margin-top: 20px;">
+            <p style="color: var(--gold); font-weight: bold;">06 JAN 202X - Our First Meet</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Pertemuan pertama kami yang membawa sejuta rasa...</p>
+            <hr style="margin: 15px 0; border: 0.5px solid #eee;">
+            <p style="color: var(--gold); font-weight: bold;">21 MEI 202X - Engagement Day</p>
+            <p style="font-size: 0.85rem; margin-top: 5px;">Langkah serius kami menuju ikatan suci.</p>
+        </div>
+    </section>
+
+    <section style="background: var(--brown); color: white;">
+        <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Day</h2>
+        <div class="card" style="margin-top: 20px; color: black;">
+            <h4 style="color: var(--brown);">Akad Nikah</h4>
+            <p>23 April 2026 | 10:00 WIB</p>
+            <p>Cianjur, Jawa Barat</p>
+            <a href="#" class="btn">📍 Kunjungi Lokasi</a>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="script-font" style="font-size: 2.5rem;">Our Moments</h2>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px;">
+            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+            <div style="width: 140px; height: 140px; background: #eee; border: 2px solid var(--gold);"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="card" style="background: var(--brown); color: white; border: none;">
+            <h2 class="script-font" style="font-size: 2.5rem; color: var(--gold);">Wedding Gift</h2>
+            <p style="font-size: 0.8rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
+            <button class="btn" style="background: var(--gold);">🎁 Kirim Hadiah</button>
+        </div>
+    </section>
+
+    <section>
+        <h1 style="font-size: 2rem;">Ali & Mujay</h1>
+        <div class="batik-divider"></div>
+        <p style="font-size: 0.9rem;">Kami yang berbahagia,</p>
+        <p style="font-weight: bold; margin-top: 10px;">Keluarga Besar Kedua Mempelai</p>
+        <div style="margin-top: 30px; font-size: 0.8rem;">
+            <p>Vendor: Digital Invitation Website</p>
+            <p style="font-style: italic; margin-top: 5px;">"Save Moments • Save Happiness"</p>
+        </div>
+    </section>
+
+    <script>
+        function startInvitation() {
+            document.getElementById('bgMusic').play();
+            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        }
+
+        function toggleMusic() {
+            var audio = document.getElementById('bgMusic');
+            audio.paused ? audio.play() : audio.pause();
+        }
+    </script>
+</body>
+</html>
