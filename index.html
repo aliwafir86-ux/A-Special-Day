@@ -6,7 +6,8 @@
     <title>Undangan Ali & Mujay - Modern Adat</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
-        :root { --brown: #5D4037; --gold: #D4AF37; --cream: #FFF9F5; }
+        /* UPDATE: Tema menjadi Oren */
+        :root { --brown: #844204; --gold: #E67E22; --cream: #FFF5EC; }
         
         /* UPDATE: Scroll Snap yang lebih halus */
         html { 
@@ -67,50 +68,36 @@
             to { transform: rotate(360deg); }
         }
 
-        /* UPDATE: LOVE PERSIS SEPERTI GAMBAR (DENGAN TALI & SIMPUL) */
+        /* UPDATE: ANIMASI LOVE DENGAN TALI MENGIKAT */
         .heart-wrapper {
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: swing 3s ease-in-out infinite;
             transform-origin: top center;
         }
 
-        /* Garis Tali */
+        /* Tali Pengikat */
         .heart-wrapper::before {
             content: "";
             position: absolute;
-            top: -50px; left: 50%;
-            width: 1.5px; height: 50px;
-            background: #A68069; /* Warna tali rami */
+            top: -40px; left: 50%;
+            width: 2px; height: 40px;
+            background: var(--gold);
             transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        /* Simpul Tali (Knot) */
-        .heart-wrapper::after {
-            content: "∞"; /* Meniru bentuk simpul tali */
-            position: absolute;
-            top: -5px; left: 50%;
-            transform: translateX(-50%);
-            color: #A68069;
-            font-size: 20px;
-            font-weight: bold;
-            z-index: 3;
         }
 
         .heart-icon {
-            font-size: 40px;
-            color: #d63031;
+            font-size: 45px;
+            color: #e67e22; /* Hati disesuaikan ke oren tua */
             display: inline-block;
-            position: relative;
-            z-index: 2;
-            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
+        /* Animasi Berayun Lembut */
         @keyframes swing {
-            0% { transform: rotate(-6deg); }
-            50% { transform: rotate(6deg); }
-            100% { transform: rotate(-6deg); }
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
         }
 
         .batik-divider {
@@ -140,7 +127,7 @@
     <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
     
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+        <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
     <section style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1000'); background-size: cover;">
@@ -199,7 +186,7 @@
 
     <section>
         <div class="heart-wrapper">
-            <span class="heart-icon">❤️</span>
+            <span class="heart-icon">🧡</span>
         </div>
         <h2 class="script-font" style="font-size: 2.5rem;">Rsvp & Ucapan</h2>
         <p style="font-size: 0.8rem; margin-bottom: 20px;">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
@@ -218,7 +205,7 @@
                 <option value="tidak">Tidak Hadir</option>
                 <option value="ragu">Masih Ragu</option>
             </select>
-            <button class="btn" style="width: 100%; background: #A68069;">Kirim</button>
+            <button class="btn" style="width: 100%; background: var(--gold);">Kirim</button>
         </div>
     </section>
 
