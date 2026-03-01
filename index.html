@@ -42,13 +42,13 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        /* Garis Vertikal Tengah */
+        /* KODE BARU 1: Garis Vertikal Tengah */
         #cover::before {
             content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
             width: 1px; background: rgba(132, 66, 4, 0.2); z-index: 1;
         }
 
-        /* Teks Nama Vertikal di Garis */
+        /* KODE BARU 2: Teks Nama Vertikal di Garis */
         .vertical-text {
             position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
             writing-mode: vertical-rl; text-orientation: mixed;
@@ -352,7 +352,7 @@
         }
 
         function openGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
-        function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
+        function closeGiftModal() { document.getElementById('giftModal').style.none = 'none'; }
         function copyRekening(no) {
             navigator.clipboard.writeText(no);
             alert("Nomor rekening berhasil disalin!");
