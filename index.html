@@ -10,7 +10,7 @@
         
         /* UPDATE: Scroll Snap yang lebih halus */
         html { 
-            scroll-snap-type: y proximity; /* Mengubah 'mandatory' ke 'proximity' agar scroll terasa lebih bebas/nyambung */
+            scroll-snap-type: y proximity; 
             scroll-behavior: smooth;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +24,7 @@
         section {
             height: 100vh; width: 100%;
             scroll-snap-align: start;
-            scroll-snap-stop: normal; /* Mengubah ke normal agar tidak terlalu kaku saat scroll cepat */
+            scroll-snap-stop: normal; 
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             position: relative; text-align: center; padding: 40px 20px;
         }
@@ -67,19 +67,36 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ANIMASI LOVE BERDENYUT */
-        .heart-animation {
-            font-size: 50px;
-            color: #e74c3c;
-            margin-bottom: 10px;
-            animation: heartbeat 1.2s infinite;
+        /* UPDATE: ANIMASI LOVE DENGAN TALI MENGIKAT */
+        .heart-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            animation: swing 3s ease-in-out infinite;
+            transform-origin: top center;
         }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.3); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
+
+        /* Tali Pengikat */
+        .heart-wrapper::before {
+            content: "";
+            position: absolute;
+            top: -40px; left: 50%;
+            width: 2px; height: 40px;
+            background: var(--gold);
+            transform: translateX(-50%);
+        }
+
+        .heart-icon {
+            font-size: 45px;
+            color: #e74c3c;
+            display: inline-block;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* Animasi Berayun Lembut */
+        @keyframes swing {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
         }
 
         .batik-divider {
@@ -167,7 +184,9 @@
     </section>
 
     <section>
-        <div class="heart-animation">❤️</div>
+        <div class="heart-wrapper">
+            <span class="heart-icon">❤️</span>
+        </div>
         <h2 class="script-font" style="font-size: 2.5rem;">Rsvp & Ucapan</h2>
         <p style="font-size: 0.8rem; margin-bottom: 20px;">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
         
