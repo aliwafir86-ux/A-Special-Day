@@ -32,38 +32,47 @@
             position: relative; text-align: center; padding: 40px 20px;
         }
 
-        /* --- UPDATE DESAIN AMPLOP SESUAI INSTRUKSI --- */
+        /* --- UPDATE DESAIN AMPLOP (MERGE) --- */
         #cover {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-color: #fdfaf5;
-            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             z-index: 3000;
-            transition: transform 1.5s ease-in-out;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            display: flex; flex-direction: column;
         }
 
-        /* Garis Vertikal Tengah */
-        #cover::before {
-            content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
-            width: 1px; background: rgba(132, 66, 4, 0.2); z-index: 1;
+        /* 1. EFEK GARIS MEMBELAH */
+        .envelope-top, .envelope-bottom {
+            position: relative; width: 100%; height: 50vh;
+            background-color: #fdfaf5;
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            z-index: 5;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; justify-content: center;
+        }
+        .envelope-top { 
+            align-items: flex-end; 
+            border-bottom: 1px solid rgba(132, 66, 4, 0.15); /* Garis pembelah halus */
+        }
+        .envelope-bottom { 
+            align-items: flex-start; 
         }
 
-        /* Teks Nama Vertikal di Garis */
+        /* 2. TEKS VERTIKAL (IKUT BERGERAK) */
         .vertical-text {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            position: absolute; left: 50%; transform: translateX(-50%);
             writing-mode: vertical-rl; text-orientation: mixed;
-            font-size: 0.6rem; letter-spacing: 2px; color: #888;
+            font-size: 0.6rem; letter-spacing: 3px; color: #aaa;
             font-family: 'Montserrat', sans-serif; z-index: 2;
             text-transform: lowercase;
         }
+        .v-top { bottom: 20px; } /* Menempel di bawah panel atas */
+        .v-bottom { top: 20px; } /* Menempel di atas panel bawah */
 
-        .envelope-top, .envelope-bottom {
-            position: absolute; width: 100%; height: 50vh;
-            background: #fdfaf5; z-index: 5;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Garis statis di belakang teks (opsional) */
+        #cover::before {
+            content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+            width: 1px; background: rgba(132, 66, 4, 0.05); z-index: 1;
         }
-        .envelope-top { top: 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
-        .envelope-bottom { bottom: 0; }
 
         .ribbon-line {
             width: 100%; height: 32px; background: #d39d7b;
@@ -82,7 +91,7 @@
         .open-btn-container {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%); z-index: 12;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
         }
 
@@ -91,10 +100,9 @@
             border: 3px solid white; border-radius: 50%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: 0.3s; position: relative;
+            position: relative;
         }
 
-        /* Pita V di bawah lingkaran */
         .circle-btn::after {
             content: ""; position: absolute; bottom: -18px;
             width: 35px; height: 35px; background: #bc8665;
@@ -111,61 +119,53 @@
             text-align: center; min-width: 220px; border: 1px solid #eee;
         }
 
-        /* Class untuk trigger animasi buka */
+        /* 3. UPDATE TOMBOL MUSIK FLOATING */
+        .music-control {
+            position: fixed; right: 20px; bottom: 45%;
+            z-index: 1000; display: none; flex-direction: column;
+            align-items: center; gap: 5px; cursor: pointer;
+        }
+        .music-circle {
+            width: 45px; height: 45px; background: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: #844204; font-size: 1.1rem;
+        }
+        .music-text {
+            font-family: 'Montserrat', sans-serif; font-size: 10px;
+            font-weight: 600; text-transform: uppercase; color: #666; letter-spacing: 1px;
+        }
+        .playing .music-circle { animation: rotateMusic 4s linear infinite; }
+        @keyframes rotateMusic { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Trigger Animasi */
         .opened .envelope-top { transform: translateY(-100%); }
         .opened .envelope-bottom { transform: translateY(100%); }
         .opened .ribbon-line { transform: translateY(100vh); opacity: 0; }
-        .opened .open-btn-container { transform: translate(-50%, 100vh); opacity: 0; }
+        .opened .open-btn-container { opacity: 0; pointer-events: none; }
         .opened#cover { pointer-events: none; visibility: hidden; transition-delay: 1.2s; }
-
-        /* MUSIK & DISK */
-        .music-disk {
-            position: fixed; bottom: 25px; right: 25px;
-            width: 55px; height: 55px;
-            background: #222; border-radius: 50%;
-            display: none; justify-content: center; align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 1000; cursor: pointer; border: 3px solid var(--gold);
-            animation: spin 3s linear infinite; animation-play-state: paused; 
-        }
-        .music-disk.playing { animation-play-state: running; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* TYPOGRAPHY & ELEMENTS */
         .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; font-weight: 400; }
         .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
-        
-        .couple-container { 
-            display: flex; justify-content: center; align-items: flex-start; gap: 40px; 
-            margin-top: 30px; width: 100%; max-width: 900px;
-        }
+        .couple-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin-top: 30px; width: 100%; max-width: 900px; }
         .couple-profile { flex: 1; display: flex; flex-direction: column; align-items: center; }
         .couple-frame { position: relative; width: 160px; height: 160px; margin-bottom: 20px; }
         .img-profile { width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; object-fit: cover; position: relative; z-index: 2; }
         .couple-frame::after { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 1px solid var(--gold); border-radius: 50%; z-index: 1; }
         .social-icons { margin-top: 10px; display: flex; gap: 8px; }
         .social-icons i { background: var(--brown); color: white; width: 28px; height: 28px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-
-        /* COUNTDOWN */
         .countdown-container { display: flex; gap: 15px; margin-top: 25px; }
-        .timer-box { 
-            background: white; border: 1px solid var(--gold); border-radius: 10px; 
-            padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-        }
+        .timer-box { background: white; border: 1px solid var(--gold); border-radius: 10px; padding: 10px; min-width: 75px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .timer-box span { display: block; font-size: 1.5rem; font-weight: bold; color: var(--gold); }
         .timer-box label { font-size: 0.65rem; font-family: 'Montserrat'; text-transform: uppercase; }
-
         .batik-divider { width: 100%; height: 25px; background: var(--brown); border-top: 3px solid var(--gold); border-bottom: 3px solid var(--gold); margin: 20px 0; opacity: 0.8; }
-
-        /* GALLERY & OTHERS */
         .gallery-container { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(2, 180px); gap: 12px; width: 100%; max-width: 900px; margin-top: 30px; }
         .gallery-item { background: #eee; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         .item-1 { grid-column: span 2; grid-row: span 2; }
         .item-2 { grid-column: span 2; }
         .item-3 { grid-column: span 2; grid-row: span 2; }
-
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; backdrop-filter: blur(2px); }
         .modal-content { background: #fcf4e8; padding: 25px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 3px solid var(--gold); position: relative; }
         .gift-card { background: white; padding: 15px; border-radius: 15px; margin: 12px 0; border: 1px solid #eee; }
@@ -180,27 +180,37 @@
 <body>
 
     <section id="cover">
-        <div class="vertical-text">the wedding of ali and mujay</div>
-        <div class="envelope-top"></div>
+        <div class="envelope-top">
+            <div class="vertical-text v-top">the wedding of ali and mujay</div>
+        </div>
+        
         <div class="ribbon-line"></div>
+        
         <div class="open-btn-container">
             <div class="circle-btn" onclick="startInvitation()">
                 <div class="initials">A &hearts; M</div>
                 <span>Buka<br>Undangan</span>
             </div>
         </div>
+
         <div class="envelope-bottom">
-            <div style="display: flex; justify-content: center;">
+            <div class="vertical-text v-bottom">the wedding of ali and mujay</div>
+            <div style="display: flex; justify-content: center; width: 100%;">
                 <div class="guest-box">
                     <p style="font-family: 'Montserrat'; font-size: 0.75rem; color: #888; margin-bottom: 5px;">Kepada Yth.</p>
                     <div class="guest-name" id="guestName" style="font-family: 'Libre Baskerville'; font-weight: bold; color: var(--gold);">Nama Tamu Undangan</div>
                 </div>
             </div>
         </div>
-        <div class="vertical-text" style="top: auto; bottom: 20px;">the wedding of ali and mujay</div>
     </section>
 
-    <div class="music-disk" id="musicBtn" onclick="toggleMusic()"></div>
+    <div class="music-control" id="musicBtn" onclick="toggleMusic()">
+        <div class="music-circle">
+            <i class="fas fa-music"></i>
+        </div>
+        <span class="music-text">Music</span>
+    </div>
+
     <audio id="bgMusic" loop>
         <source src="musik.mp3" type="audio/mpeg">
     </audio>
@@ -246,98 +256,35 @@
         </div>
     </section>
 
-    <section>
-        <div class="batik-divider"></div>
-        <h2 class="script-font" style="font-size: 3rem;">Our Love Story</h2>
-        <div class="card" style="text-align: left; margin-top: 20px;">
-            <p style="color: var(--gold); font-weight: bold;">06 JAN 202X - Our First Meet</p>
-            <p style="font-size: 0.85rem; margin-top: 5px;">Pertemuan pertama kami yang membawa sejuta rasa...</p>
-            <hr style="margin: 15px 0; border: 0.5px solid #eee;">
-            <p style="color: var(--gold); font-weight: bold;">21 MEI 202X - Engagement Day</p>
-            <p style="font-size: 0.85rem; margin-top: 5px;">Langkah serius kami menuju ikatan suci.</p>
-        </div>
-    </section>
-
-    <section style="height: auto; padding: 60px 20px;">
-        <h2 class="script-font" style="font-size: 3.5rem;">Our Moments</h2>
-        <div class="gallery-container">
-            <div class="gallery-item item-1"><img src="https://via.placeholder.com/400x600"></div>
-            <div class="gallery-item item-2"><img src="https://via.placeholder.com/600x400"></div>
-            <div class="gallery-item item-3"><img src="https://via.placeholder.com/400x600"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
-            <div class="gallery-item"><img src="https://via.placeholder.com/300x300"></div>
-        </div>
-    </section>
-
-    <section>
-        <div class="heart-wrapper"><span style="font-size: 45px;">🧡</span></div>
-        <h2 class="script-font" style="font-size: 3rem;">Rsvp & Ucapan</h2>
-        <div class="card" style="text-align: left;">
-            <input type="text" class="form-control" placeholder="Nama Anda">
-            <textarea class="form-control" rows="3" placeholder="Berikan Ucapan & Doa"></textarea>
-            <button class="btn" style="width: 100%; background: var(--gold);">Kirim Ucapan</button>
-        </div>
-    </section>
-
-    <section>
-        <div class="card" style="background: var(--brown); color: white; border: none; text-align: center;">
-            <h2 class="script-font" style="font-size: 3rem; color: var(--gold);">Wedding Gift</h2>
-            <p style="font-size: 0.9rem; margin: 15px 0;">Doa restu Anda sudah cukup, namun jika ingin memberikan tanda kasih:</p>
-            <button class="btn" style="background: var(--gold);" onclick="openGiftModal()">🎁 Kirim Hadiah</button>
-        </div>
-    </section>
-
-    <div id="giftModal" class="modal">
-        <div class="modal-content">
-            <h2 class="script-font" style="font-size: 2.5rem;">Wedding Gift</h2>
-            <div class="gift-card">
-                <p style="font-weight: 600;">BCA</p>
-                <p id="noRek">1234 5678 90</p>
-                <p style="font-size: 0.8rem; color: #666;">A.n Nama Mempelai</p>
-                <button class="btn-copy" onclick="copyRekening('1234567890')">Salin Rekening</button>
-            </div>
-            <button class="btn" onclick="closeGiftModal()" style="margin-top: 10px;">Tutup</button>
-        </div>
-    </div>
-
     <script>
-        // URL Guest Name
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if (guest) { document.getElementById('guestName').innerText = guest; }
 
         function startInvitation() {
-            // Trigger Animasi Amplop
             document.getElementById('cover').classList.add('opened');
-            
-            // Aktifkan scroll
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
 
-            // Musik
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
-            audio.play();
-            btn.style.display = 'flex';
+            audio.play().catch(e => console.log("Audio play blocked"));
+            btn.style.display = 'flex'; // Menggunakan flex agar vertikal ikon & teks Music muncul
             btn.classList.add('playing');
 
-            // Delay scroll agar animasi amplop selesai dulu
             setTimeout(() => {
                 document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
             }, 1300);
         }
 
-        // Countdown Logic
         const targetDate = new Date("Dec 12, 2026 08:00:00").getTime();
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-
             document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
-
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 document.querySelector(".countdown-container").innerHTML = "ACARA SEDANG BERLANGSUNG";
@@ -356,10 +303,6 @@
         function copyRekening(no) {
             navigator.clipboard.writeText(no);
             alert("Nomor rekening berhasil disalin!");
-        }
-        window.onclick = function(event) {
-            let modal = document.getElementById('giftModal');
-            if (event.target == modal) { modal.style.display = "none"; }
         }
     </script>
 </body>
