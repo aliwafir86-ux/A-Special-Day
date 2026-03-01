@@ -8,9 +8,9 @@
     <style>
         :root { --brown: #5D4037; --gold: #D4AF37; --cream: #FFF9F5; }
         
-        /* Fitur Snap Scroll Utama yang Dioptimasi */
+        /* UPDATE: Scroll Snap yang lebih halus */
         html { 
-            scroll-snap-type: y mandatory; 
+            scroll-snap-type: y proximity; /* Mengubah 'mandatory' ke 'proximity' agar scroll terasa lebih bebas/nyambung */
             scroll-behavior: smooth;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,7 +24,7 @@
         section {
             height: 100vh; width: 100%;
             scroll-snap-align: start;
-            scroll-snap-stop: always; 
+            scroll-snap-stop: normal; /* Mengubah ke normal agar tidak terlalu kaku saat scroll cepat */
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             position: relative; text-align: center; padding: 40px 20px;
         }
@@ -65,6 +65,21 @@
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+
+        /* ANIMASI LOVE BERDENYUT */
+        .heart-animation {
+            font-size: 50px;
+            color: #e74c3c;
+            margin-bottom: 10px;
+            animation: heartbeat 1.2s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
         }
 
         .batik-divider {
@@ -152,7 +167,7 @@
     </section>
 
     <section>
-        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583158.png" width="50" style="margin-bottom: 10px;">
+        <div class="heart-animation">❤️</div>
         <h2 class="script-font" style="font-size: 2.5rem;">Rsvp & Ucapan</h2>
         <p style="font-size: 0.8rem; margin-bottom: 20px;">Harap Konfirmasi Kehadiran, dan Tinggalkan Doa Terbaik Anda.</p>
         
