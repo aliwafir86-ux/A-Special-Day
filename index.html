@@ -16,11 +16,13 @@
             scroll-behavior: smooth;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* MODIFIKASI DISINI: Body dikunci saat awal load */
         body { 
             font-family: 'Libre Baskerville', serif;
             background: var(--cream); 
             color: var(--brown);
-            overflow-x: hidden;
+            overflow: hidden; /* Mencegah scroll di awal */
         }
 
         section {
@@ -110,7 +112,7 @@
         .music-disk.playing { animation-play-state: running; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* GALLERY & COUPLE STYLES (Sama seperti sebelumnya) */
+        /* GALLERY & COUPLE STYLES */
         .hero-name { font-family: 'Pinyon Script', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; }
         .script-font { font-family: 'Pinyon Script', cursive; color: var(--gold); }
         .card { background: white; padding: 25px; border: 1px solid var(--gold); width: 100%; max-width: 450px; border-radius: 10px; }
@@ -206,7 +208,7 @@
     </div>
 
     <script>
-        // Ambil nama dari URL (contoh: ?to=Nama+Tamu)
+        // Ambil nama dari URL
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if (guest) {
@@ -214,6 +216,10 @@
         }
 
         function startInvitation() {
+            // MODIFIKASI: Aktifkan kembali scroll body
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
+
             // Mainkan musik
             var audio = document.getElementById('bgMusic');
             var btn = document.getElementById('musicBtn');
