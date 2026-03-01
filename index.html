@@ -104,7 +104,7 @@
 
         /* 3. UPDATE TOMBOL MUSIK FLOATING (DIPERKECIL & TANPA TEKS) */
         .music-control {
-            position: fixed; right: 20px; bottom: 20px; /* Pindah ke pojok bawah agar lebih bersih */
+            position: fixed; right: 20px; bottom: 20px; /* Pojok bawah lebih bersih */
             z-index: 1000; display: none; cursor: pointer;
         }
         .music-circle {
@@ -144,7 +144,7 @@
 
     <section id="cover">
         <div class="envelope-top">
-            </div>
+        </div>
         
         <div class="ribbon-line"></div>
         
@@ -206,13 +206,20 @@
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Periksa keberadaan elemen sebelum mengisi teks untuk menghindari error
+            const daysEl = document.getElementById("days");
+            if(daysEl) {
+                daysEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            }
+
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.querySelector(".countdown-container").innerHTML = "ACARA SEDANG BERLANGSUNG";
+                const countContainer = document.querySelector(".countdown-container");
+                if(countContainer) countContainer.innerHTML = "ACARA SEDANG BERLANGSUNG";
             }
         }, 1000);
 
